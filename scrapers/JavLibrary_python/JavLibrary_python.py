@@ -343,14 +343,14 @@ def getxpath(xpath, tree):
 
 
 def jav_search(html, xpath):
-    if "/en/?v=" in html.url:
+    if "/cn/?v=" in html.url:
         log.debug(f"Using the provided movie page ({html.url})")
         return html
     jav_search_tree = lxml.html.fromstring(html.content)
     jav_url = getxpath(xpath['url'], jav_search_tree)  # ./?v=javme5it6a
     if jav_url:
         url_domain = urlparse(html.url).netloc
-        jav_url = re.sub(r"^\.", f"https://{url_domain}/en", jav_url[0])
+        jav_url = re.sub(r"^\.", f"https://{url_domain}/cn", jav_url[0])
         log.debug(f"Using API URL: {jav_url}")
         main_html = send_request(jav_url, JAV_HEADERS)
         return main_html
@@ -371,7 +371,7 @@ def jav_search_by_name(html, xpath):
         lst.append({
             "title": jav_title[count],
             "url":
-            f"https://www.javlibrary.com/en/{jav_url[count].replace('./', '')}",
+            f"https://www.javlibrary.com/cn/{jav_url[count].replace('./', '')}",
             "image": re.sub("^//","https://",jav_image[count])
         })
     return lst
@@ -427,7 +427,7 @@ def buildlist_tagperf(data, type_scrape=""):
 def th_request_perfpage(page_url, perf_url):
     # vl_star.php?s=afhvw
     #log.debug("[DEBUG] Aliases Thread: {}".format(threading.get_ident()))
-    javlibrary_ja_html = send_request(page_url.replace("/en/", "/ja/"),
+    javlibrary_ja_html = send_request(page_url.replace("/cn/", "/ja/"),
                                       JAV_HEADERS)
     if javlibrary_ja_html:
         javlibrary_perf_ja = lxml.html.fromstring(javlibrary_ja_html.content)
@@ -514,7 +514,7 @@ if "validSearch" in sys.argv and SCENE_URL is None:
 if "searchName" in sys.argv:
     log.debug(f"Using search with Title: {SEARCH_TITLE}")
     JAV_SEARCH_HTML = send_request(
-        f"https://www.javlibrary.com/en/vl_searchbyid.php?keyword={SEARCH_TITLE}",
+        f"https://www.javlibrary.com/cn/vl_searchbyid.php?keyword={SEARCH_TITLE}",
         JAV_HEADERS)
 else:
     if SCENE_URL:
@@ -528,7 +528,7 @@ else:
     if JAV_MAIN_HTML is None and SCENE_TITLE:
         log.debug(f"Using search with Title: {SCENE_TITLE}")
         JAV_SEARCH_HTML = send_request(
-            f"https://www.javlibrary.com/en/vl_searchbyid.php?keyword={SCENE_TITLE}",
+            f"https://www.javlibrary.com/cn/vl_searchbyid.php?keyword={SCENE_TITLE}",
             JAV_HEADERS)
 
 # XPATH
@@ -576,7 +576,7 @@ jav_result = {}
 
 if "searchName" in sys.argv:
     if JAV_SEARCH_HTML:
-        if "/en/?v=" in JAV_SEARCH_HTML.url:
+        if "/cn/?v=" in JAV_SEARCH_HTML.url:
             log.debug(f"Scraping the movie page directly ({JAV_SEARCH_HTML.url})")
             jav_tree = lxml.html.fromstring(JAV_SEARCH_HTML.content)
             jav_result["title"] = getxpath(jav_xPath["title"], jav_tree)
