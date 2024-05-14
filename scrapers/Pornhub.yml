@@ -48,7 +48,7 @@ xPathScrapers:
               - regex: ^
                 with: "https://www.pornhub.com"
       Image:
-        selector: $searchItem//div[contains(@class, "phimage")]//img/@data-thumb_url
+        selector: $searchItem//div[contains(@class, "phimage")]//img/@data-mediumthumb
   performerSearch:
     performer:
       Name: //div[@class="wrap"]/div[@class="thumbnail-info-wrapper"]/a[@class="title"]/text()
@@ -127,7 +127,7 @@ xPathScrapers:
       Tags:
         Name: $videowrap//div[contains(concat(" ",normalize-space(@class)," ")," categoriesWrapper ")]/a/text()|$videowrap//div[contains(concat(" ",normalize-space(@class)," ")," tagsWrapper ")]/a/text()
       Performers:
-        Name: $videowrap//div[contains(concat(" ",normalize-space(@class)," ")," pornstarsWrapper ")]/a/@data-mxptext
+        Name: $videowrap//div[contains(concat(" ",normalize-space(@class)," ")," pornstarsWrapper ")]/a[@data-label="pornstar"]/text()
       Image: //meta[@property="og:image"]/@content
       Studio:
         Name: $videowrap//div[contains(concat(" ",normalize-space(@class)," ")," usernameWrap ")]//a/text()
